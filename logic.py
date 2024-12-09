@@ -7,7 +7,7 @@ def get_location_key(api_key, city):
     return data[0]['Key']
 
 def get_weather_forecast(api_key, location_key):
-    url = f"http://dataservice.accuweather.com/forecasts/v1/daily/1day/{location_key}?apikey={api_key}&metric=true"
+    url = f"http://dataservice.accuweather.com/forecasts/v1/daily/1day/{location_key}?apikey={api_key}&metric=true&details=true"
     response = requests.get(url)
     forecast_data = response.json()
     return forecast_data['DailyForecasts'][0]
