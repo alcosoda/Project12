@@ -4,7 +4,7 @@ from logic import get_location_key, get_weather_forecast, check_bad_weather
 
 app = Flask(__name__)
 
-api_key = "1aVr87Bt3NlBICxPnuqQlqNXGkk4o6Rv"  # Твой API ключ
+api_key = "jUkVAUIEU557aaZYLpcGDVPgu7ulY5UO"  # Твой API ключ
 
 @app.route("/", methods=["GET", "POST"])
 def index():
