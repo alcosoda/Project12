@@ -1,10 +1,20 @@
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Результат прогноза</title>
-    </head>
-    <body>
-        <h1>Прогноз погоды для {{ city }}</h1>
-        <p>{{ weather_status }}</p>
-    </body>
-    </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Результат прогноза</title>
+</head>
+<body>
+    <h1>Прогноз погоды для маршрута</h1>
+    {% for item in weather_data %}
+        <h2>{{ item.city }}</h2>
+        <p>{{ item.weather_status }}</p>
+        {% if item.forecast %}
+            <!-- Display detailed forecast data as before -->
+            <p>Температура: {{ item.forecast.Temperature.Maximum.Value }}°C</p>
+            <p>Скорость ветра: {{ item.forecast.Day.Wind.Speed.Value }} км/ч</p>
+            <p>Вероятность дождя: {{ item.forecast.Day.RainProbability }}%</p>
+            <!-- ... other forecast details ... -->
+        {% endif %}
+    {% endfor %}
+</body>
+</html>
