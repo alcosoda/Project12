@@ -29,12 +29,35 @@ def get_weather_forecast(api_key, location_key):
         print(f"Ошибка при получении прогноза погоды: {e}")
         return None
 
+
 def check_bad_weather(forecast):
     temperature = forecast['Temperature']['Maximum']['Value']
     wind_speed = forecast['Day']['Wind']['Speed']['Value']
     rain_probability = forecast['Day']['RainProbability']
 
-    if temperature < 0 or temperature > 35 or wind_speed > 50 or rain_probability > 70:
-        return "Ой-ой, погода плохая"
+    # Добавляем больше параметров для оценки погоды
+    # Например, учитываем облачность, осадки и видимость
+    cloud_cover = forecast['Day']['CloudCover']
+    total_liquid = forecast['Day']['TotalLiquid']['Value']
+    # Проверка на наличие данных о видимости
+    visibility = forecast['Day']['Visibility']['Value'] if 'Visibility' in forecast['Day'] else None
+
+    if (temperature < 0 or temperature > 35 or
+            wind_speed > 50 or rain_probability > 70 or
+            cloud_cover > 80 or total_liquid > 5 or
+            visibility < 1):
+        # Формируем более информативное сообщение о плохой погоде
+        bad_weather_reasons = []
+        if temperature < 0:
+            bad_weather_reasons.append("слишком холодно")
+        if temperature > 35:
+            bad_weather_reasons.append("слишком жарко")
+        if wind_speed > 50:
+            bad_weather_reasons.append("сильный ветер")
+        if rain_probability > 70:
+            bad_weather_reasons.append("высокая вероятность дождя")
+        # ... (добавляем причины для других параметров) ...
+
+        return f"Ой-ой, погода плохая: {', '.join(bad_weather_reasons)}."
     else:
         return "Погода — супер"
