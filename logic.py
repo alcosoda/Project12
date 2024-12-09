@@ -24,10 +24,16 @@ def get_weather_forecast(api_key, location_key):
         response = requests.get(url)
         response.raise_for_status()
         forecast_data = response.json()
+        # Проверка на наличие необходимых ключей в данных прогноза
+        required_keys = ['DailyForecasts', 'Temperature', 'Day', 'Wind', 'RainProbability', 'CloudCover', 'TotalLiquid']
+        if not all(key in forecast_data for key in required_keys):
+            raise ValueError("Невалидные данные прогноза погоды")  # Выбрасываем исключение, если данные неполные
         return forecast_data['DailyForecasts'][0]
-    except requests.exceptions.RequestException as e:
+    except (requests.exceptions.RequestException, ValueError) as e:
         print(f"Ошибка при получении прогноза погоды: {e}")
         return None
+
+
 
 
 def check_bad_weather(forecast):
