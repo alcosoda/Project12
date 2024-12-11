@@ -9,10 +9,10 @@
         <h2>{{ item.city }}</h2>
         <p>{{ item.weather_status }}</p>
         {% if item.forecast %}
-            <!-- Display detailed forecast data as before -->
-            <p>Температура: {{ item.forecast.Temperature.Maximum.Value }}°C</p>
-            <p>Скорость ветра: {{ item.forecast.Day.Wind.Speed.Value }} км/ч</p>
-            <p>Вероятность дождя: {{ item.forecast.Day.RainProbability }}%</p>
+            <!-- Display forecast data with date offset -->
+            <p>Температура: {{ item.forecast.Temperature.Maximum.Value }}°C ({{ item.forecast.Date }})</p>
+            <p>Скорость ветра: {{ item.forecast.Day.Wind.Speed.Value }} км/ч ({{ item.forecast.Date }})</p>
+            <p>Вероятность дождя: {{ item.forecast.Day.RainProbability }}% ({{ item.forecast.Date }})</p>
             <!-- ... other forecast details ... -->
         {% endif %}
     {% endfor %}

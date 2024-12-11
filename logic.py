@@ -29,10 +29,10 @@ def get_weather_forecast(api_key, location_key, date_offset=0):
         forecast_data = response.json()
 
         # Get the forecast for the specified date offset
-        if 0 <= date_offset < 5:  # Check if date_offset is within the 5-day range
+        if 0 <= date_offset < len(forecast_data['DailyForecasts']):
             return forecast_data['DailyForecasts'][date_offset]
         else:
-            raise ValueError("Invalid date_offset. It should be between 0 and 4.")
+            raise ValueError("Invalid date_offset. It should be within the range of available forecasts.")
 
     except requests.exceptions.RequestException as e:
         print(f"Ошибка при получении прогноза погоды: {e}")
