@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Форма с точками</title>
+    <title>Погодизатор маршрутизатор</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,25 +24,26 @@
 
         .form-group {
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
+            display: block; /* Changed to block */
+            align-items: flex-start; /* Changed to flex-start */
         }
 
         .form-label {
             display: block;
             margin-bottom: 5px;
             color: #f8f9fa;
-            width: 100px;
+            width: 100%; /* Changed to 100% */
         }
 
         .form-input {
-            width: calc(100% - 120px);
+            width: calc(100% - 20px); /* Changed width */
             padding: 10px;
             border: 1px solid #6c757d;
             border-radius: 4px;
             background-color: #454d55;
             color: #f8f9fa;
-            margin-right: 10px;
+            margin-right: 0; /* Removed margin-right */
+            font-size: 18px; /* Increased font size */
         }
 
         .submit-button {
@@ -105,8 +106,7 @@
 
             const removeCityBtn = newCityInput.querySelector('.removeCityBtn');
             removeCityBtn.addEventListener('click', () => {
-                newCityInput.remove();
-                cityCount--;
+                newCityInput.remove();cityCount--;
 
                 const cityLabels = document.querySelectorAll('.form-label');
                 cityLabels.forEach((label, index) => {

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from logic import Connect, Weather
 
 app = Flask(__name__)
-api_key = 'Jul2EgzWSP0sgvNojXxIAbzCEJmMSlrq'  # Replace with your AccuWeather API key
+api_key = 'Fv4JolXK4AKTAX2FsbEp0JLln58mwQD0'  # Replace with your AccuWeather API key
 
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
