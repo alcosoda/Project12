@@ -60,13 +60,13 @@ class Weather:
 
     def validate(self):
         if self.temp_c < 0:
-            return 'Очень холодно'
-        elif self.temp_c > 30:
-            return 'Очень жарко'
+            return 'Брррр как холодно'
+        elif self.temp_c > 40:
+            return 'Банька с дедом'
         if self.wind > 50:
-            return 'Сильный ветер'
+            return 'Ветер сносит шляпы и задирает платья'
         if self.humidity < 20:
-            return 'Очень сухо'
+            return 'Сухо как в Сахаре'
         if self.rain > 70:
             return 'Кажется кто-то рядом танцует танец дождя'
         return 'Погодка - шик-блеск. Подходит для пляжного волейбола'
