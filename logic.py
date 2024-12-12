@@ -16,20 +16,27 @@ def get_location_key(api_key, city):
         return None  # Возвращаем None в случае ошибки
 
 
-def get_weather_forecast(api_key, location_key):
+def get_weather_forecast(api_key, location_key, date_offset=0):
     if location_key is None:
         return None
-    url = f"http://dataservice.accuweather.com/forecasts/v1/daily/1day/{location_key}?apikey={api_key}&metric=true&details=true"
+
+    # Use the 5-day forecast API
+    url = f"http://dataservice.accuweather.com/forecasts/v1/daily/5day/{location_key}?apikey={api_key}&metric=true&details=true"
+
     try:
         response = requests.get(url)
         response.raise_for_status()
         forecast_data = response.json()
-        if 'DailyForecasts' not in forecast_data or not forecast_data['DailyForecasts']:
-            raise ValueError("Некорректный ответ от API")  # Handle unexpected API response format
-        return forecast_data['DailyForecasts'][0]
-    except (requests.exceptions.RequestException, ValueError) as e:
+
+        # Get the forecast for the specified date offset
+        if 0 <= date_offset < len(forecast_data['DailyForecasts']):
+            return forecast_data['DailyForecasts'][date_offset]
+        else:
+            raise ValueError("Invalid date_offset. It should be within the range of available forecasts.")
+
+    except requests.exceptions.RequestException as e:
         print(f"Ошибка при получении прогноза погоды: {e}")
-        return None  # Return None in case of error
+        return None
 
 def check_bad_weather(forecast):
     temperature = forecast['Temperature']['Maximum']['Value']
@@ -51,12 +58,14 @@ def check_bad_weather(forecast):
             ):
         # Формируем более информативное сообщение о плохой погоде
         bad_weather_reasons = []
+        # Add more detailed bad weather reasons:
         if temperature < 0:
-            bad_weather_reasons.append("слишком холодно")
+            bad_weather_reasons.append(f"слишком холодно ({temperature}°C)")
         if temperature > 35:
-            bad_weather_reasons.append("слишком жарко")
+            bad_weather_reasons.append(f"слишком жарко ({temperature}°C)")
         if wind_speed > 50:
-            bad_weather_reasons.append("сильный ветер")
+            bad_weather_reasons.append(f"сильный ветер ({wind_speed} км/ч)")
+        # ... (similarly for other parameters) ...
         if rain_probability > 70:
             bad_weather_reasons.append("высокая вероятность дождя")
         if forecast.get('Day', {}).get('SnowProbability', 0) > 50:
@@ -67,6 +76,7 @@ def check_bad_weather(forecast):
             bad_weather_reasons.append("высокий UV индекс")
         # ... (добавляем причины для других параметров) ...
 
-        return f"Ой-ой, погода плохая: {', '.join(bad_weather_reasons)}."
+        return f"Ой-ой, погода плохая: {', '.join(bad_weather_reasons)}." if bad_weather_reasons else "Погода — супер"
+
     else:
         return "Погода — супер"

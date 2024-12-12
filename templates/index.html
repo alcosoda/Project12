@@ -1,14 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Прогноз погоды</title>
+    <title>Прогноз погоды для маршрута</title>
 </head>
 <body>
-    <h1>Прогноз погоды</h1>
-    <form method="POST">
-        <label for="city">Введите город:</label>
-        <input type="text" name="city" id="city" required>
+    <h1>Прогноз погоды для маршрута</h1>
+    <form method="POST" id="weather-form">
+        <div id="locations-container">
+            </div>
+        <button type="button" id="add-location">+</button>
         <button type="submit">Получить прогноз</button>
     </form>
+
+    <script>
+        let locationCount = 0; // Start from 0
+
+        function addLocationEntry() {
+            locationCount++;
+            const newLocationEntry = `
+                <div class="location-entry">
+                    <label for="city${locationCount}">Введите город:</label>
+                    <input type="text" name="city${locationCount}" id="city${locationCount}" required>
+                    <label for="date${locationCount}">Когда там будете?:</label>
+                    <select name="date1" id="date1">
+                    <option value="0">Сегодня</option>
+                    <option value="1">Завтра</option>
+                    <option value="2">Послезавтра</option>
+                    <option value="3">Через 3 дня</option>
+                    <option value="4">Через 4 дня</option>
+                </select>
+                </div>
+            `;
+            document.getElementById('locations-container').innerHTML += newLocationEntry;
+        }
+
+        // Add initial location entry
+        addLocationEntry();
+
+        document.getElementById('add-location').addEventListener('click', addLocationEntry);
+    </script>
 </body>
 </html>
